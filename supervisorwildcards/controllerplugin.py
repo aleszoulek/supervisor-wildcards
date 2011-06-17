@@ -8,23 +8,39 @@ class WildCardsControllerPlugin(ControllerPluginBase):
     def __init__(self, controller, **config):
         self.ctl = controller
 
-    def do_mstop(self, arg):
+    def _expand_wildcards(self, arg, command):
         patterns = arg.split()
         supervisor = self.ctl.get_supervisor()
         matched = False
         if 'all' in patterns:
-            self.ctl.onecmd('stop all')
+            self.ctl.onecmd('%s all' % command)
+            return
         for process in supervisor.getAllProcessInfo():
             for pattern in patterns:
                 if fnmatch.fnmatch(process['name'], pattern):
-                    self.ctl.onecmd('stop %s' % process['name'])
+                    self.ctl.onecmd('%s %s' % (command, process['name']))
                     matched = True
         if not matched:
             self.ctl.output('No process matched given expression.')
 
+    def _wrap_help(self, command):
+        self.ctl.output('The same as %s, but accepts wildcard expressions to match the process name.' % command)
+        self.ctl.output('m%s a* - %ss all processes begining with "a".' % (command, command))
+
+
+    def do_mstop(self, arg):
+        self._expand_wildcards(arg, command='stop')
+    def do_mstart(self, arg):
+        self._expand_wildcards(arg, command='start')
+    def do_mrestart(self, arg):
+        self._expand_wildcards(arg, command='restart')
+
     def help_mstop(self):
-        self.ctl.output('The same as stop, but accepts wildcard expressions to match the process name.')
-        self.ctl.output('mstop a* - stops all processes begining with "a".')
+        return self._wrap_help('stop')
+    def help_mstart(self):
+        return self._wrap_help('start')
+    def help_mrestart(self):
+        return self._wrap_help('restart')
 
 
 
