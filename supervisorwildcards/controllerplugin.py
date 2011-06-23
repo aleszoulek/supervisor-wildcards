@@ -1,3 +1,4 @@
+from threading import Thread
 import fnmatch
 
 from supervisor.supervisorctl import ControllerPluginBase
@@ -11,16 +12,20 @@ class WildCardsControllerPlugin(ControllerPluginBase):
     def _expand_wildcards(self, arg, command):
         patterns = arg.split()
         supervisor = self.ctl.get_supervisor()
-        matched = False
         if 'all' in patterns:
             self.ctl.onecmd('%s all' % command)
             return
+
+        threads = []
         for process in supervisor.getAllProcessInfo():
             for pattern in patterns:
                 if fnmatch.fnmatch(process['name'], pattern):
-                    self.ctl.onecmd('%s %s' % (command, process['name']))
-                    matched = True
-        if not matched:
+                    t = Thread(target=self.ctl.onecmd, args=('%s %s' % (command, process['name']), ))
+                    t.start()
+                    threads.append(t)
+        for t in threads:
+            t.join()
+        if not threads:
             self.ctl.output('No process matched given expression.')
 
     def _wrap_help(self, command):
