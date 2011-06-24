@@ -7,7 +7,7 @@ Description
 
 Adds ``mstop``, ``mstart`` and ``mrestart`` commands to Supervisor_. Those commands works exacatly the same way as ``stop``, ``start`` and ``restart`` respectively, except they support process name wildcarding.
 
-In some usecases you can use groups support in Supervisor_, but it doesn't allow you to have one process in multiple groups. That's when wildcarding can be realy useful.
+In some usecases you can use groups support in Supervisor_, but it doesn't allow you to have one process in multiple groups. That's when wildcarding can be really useful.
 
 Example
 =======
