@@ -38,6 +38,16 @@ And then add into your supervisor.conf:
   [ctlplugin:wildcards]
   supervisor.ctl_factory = supervisorwildcards.controllerplugin:make_wildcards_controllerplugin
 
+Changelog
+=========
+
+ * 0.1.1
+
+   * Commands are run in parallel (Thanks, Honza Kral)
+
+ * 0.1.0
+
+   * Simple support for ``mstop``, ``mstart``, ``mrestart``
 
 
 
