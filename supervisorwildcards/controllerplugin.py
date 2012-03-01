@@ -20,7 +20,7 @@ class WildCardsControllerPlugin(ControllerPluginBase):
         for process in supervisor.getAllProcessInfo():
             for pattern in patterns:
                 if fnmatch.fnmatch(process['name'], pattern):
-                    t = Thread(target=self.ctl.onecmd, args=('%s %s' % (command, process['name']), ))
+                    t = Thread(target=self.ctl.onecmd, args=('%s %s:%s' % (command, process['group'], process['name']), ))
                     t.start()
                     threads.append(t)
         for t in threads:
