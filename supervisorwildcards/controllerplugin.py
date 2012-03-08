@@ -11,18 +11,24 @@ class WildCardsControllerPlugin(ControllerPluginBase):
 
     def _expand_wildcards(self, arg, command):
         patterns = arg.split()
-        supervisor = self.ctl.get_supervisor()
+        supervisorProcesses = self.ctl.get_supervisor().getAllProcessInfo()
+        matchedProcesses = []
+
         if 'all' in patterns:
-            self.ctl.onecmd('%s all' % command)
-            return
+            for supervisorProcess in supervisorProcesses:
+                matchedProcesses.append(supervisorProcess['group'] + ':' + supervisorProcess['name'])
+        else:
+            for supervisorProcess in supervisorProcesses:
+                for pattern in patterns:
+                    if fnmatch.fnmatch(supervisorProcess['group'], pattern):
+                        matchedProcesses.append(supervisorProcess['group'] + ':' + supervisorProcess['name'])
 
         threads = []
-        for process in supervisor.getAllProcessInfo():
-            for pattern in patterns:
-                if fnmatch.fnmatch(process['name'], pattern):
-                    t = Thread(target=self.ctl.onecmd, args=('%s %s' % (command, process['name']), ))
-                    t.start()
-                    threads.append(t)
+
+        for matchedProcess in set(matchedProcesses):
+            t = Thread(target=self.ctl.onecmd, args=('%s %s' % (command, matchedProcess), ))
+            t.start()
+            threads.append(t)
         for t in threads:
             t.join()
         if not threads:
