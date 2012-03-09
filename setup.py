@@ -31,7 +31,8 @@ setup(
         "Programming Language :: Python :: 2",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
-    ]
+    ],
+    test_suite='test_supervisorwildcards.run_tests.run_all',
 )
 
 
