@@ -1,0 +1,4 @@
+/dist/
+/supervisord.log
+/supervisord.pid
+

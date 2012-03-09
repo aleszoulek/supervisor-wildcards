@@ -1,0 +1,4 @@
+# for running tests
+supervisor
+nose
+coverage
