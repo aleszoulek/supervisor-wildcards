@@ -41,6 +41,10 @@ And then add into your supervisor.conf:
 Changelog
 =========
 
+ * 0.1.2
+
+   * Fixed matching processes that are assigned to a group
+
  * 0.1.1
 
    * Commands are run in parallel (Thanks, Honza Kral)
