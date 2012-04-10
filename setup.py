@@ -17,7 +17,7 @@ except:
 
 setup(
     name = 'supervisor-wildcards',
-    description = "Implemenents start/stop/restart commands with wildcard support for Supervisor",
+    description = "Implemenents start/stop/restart commands with both parallel and wildcard support for Supervisor.",
     url = "http://github.com/aleszoulek/supervisor-wildcards",
     long_description = long_description,
     version = __versionstr__,
