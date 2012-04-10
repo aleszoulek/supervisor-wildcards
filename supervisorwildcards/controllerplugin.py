@@ -13,8 +13,8 @@ class WildCardsControllerPlugin(ControllerPluginBase):
         patterns = arg.split()
         supervisor = self.ctl.get_supervisor()
         if 'all' in patterns:
-            self.ctl.onecmd('%s all' % command)
-            return
+            # match any process name
+            patterns = ['*']
 
         threads = []
         for process in supervisor.getAllProcessInfo():
