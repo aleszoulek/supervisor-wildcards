@@ -6,15 +6,17 @@ from unittest import TestCase
 
 
 
-config_file = join(dirname(__file__), 'supervisord.conf')
+CONFIG_FILE = join(dirname(__file__), 'supervisord.conf')
+CONFIG_FILE_MATCH_GROUP = join(dirname(__file__), 'supervisord_match_group.conf')
 
 class TestPlugin(TestCase):
 
     def setUp(self):
         self._supervisorctl('start all')
 
-    def _supervisorctl(self, cmd):
+    def _supervisorctl(self, cmd, config_file=CONFIG_FILE):
         out = Popen('supervisorctl --configuration="%s" %s' % (config_file, cmd), shell=True, stdout=PIPE).stdout.read()
+        print out
         return out
 
     def assert_status(self, expected):
@@ -37,10 +39,18 @@ class TestPlugin(TestCase):
             'one': 'STOPPED',
         })
 
-    def test_match_group(self):
+    def test_match_group_off(self):
         self._supervisorctl("mstop 'r*'")
         self.assert_status({
             'colors:red': 'STOPPED',
             'colors:green': 'RUNNING',
+            'one': 'RUNNING',
+        })
+
+    def test_match_group_on(self):
+        self._supervisorctl("mstop 'col*'", config_file=CONFIG_FILE_MATCH_GROUP)
+        self.assert_status({
+            'colors:red': 'STOPPED',
+            'colors:green': 'STOPPED',
             'one': 'RUNNING',
         })

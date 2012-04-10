@@ -38,8 +38,22 @@ And then add into your supervisor.conf:
   [ctlplugin:wildcards]
   supervisor.ctl_factory = supervisorwildcards.controllerplugin:make_wildcards_controllerplugin
 
+Configuration
+=============
+
+::
+
+  match_group = 1
+
+By default, supervisorwildcards plugin match the wildcards just against process name (not group). Setting match_group = 1 will try to match the pattern agains "group_name:process_name" instead.
+
 Changelog
 =========
+
+ * 0.1.3
+
+   * ``all`` parameter expands to ``*``
+   * Added ``match_group`` parameter
 
  * 0.1.2
 

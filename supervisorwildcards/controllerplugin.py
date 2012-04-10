@@ -8,6 +8,13 @@ class WildCardsControllerPlugin(ControllerPluginBase):
 
     def __init__(self, controller, **config):
         self.ctl = controller
+        self.match_group = bool(int(config.get('match_group', '0')))
+
+    def _match_process(self, process, pattern):
+        name = process['name']
+        if self.match_group:
+            name = "%s:%s" % (process['group'], process['name'])
+        return fnmatch.fnmatch(name, pattern)
 
     def _expand_wildcards(self, arg, command):
         patterns = arg.split()
@@ -19,7 +26,7 @@ class WildCardsControllerPlugin(ControllerPluginBase):
         threads = []
         for process in supervisor.getAllProcessInfo():
             for pattern in patterns:
-                if fnmatch.fnmatch(process['name'], pattern):
+                if self._match_process(process, pattern):
                     t = Thread(target=self.ctl.onecmd, args=('%s %s:%s' % (command, process['group'], process['name']), ))
                     t.start()
                     threads.append(t)
