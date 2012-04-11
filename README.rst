@@ -58,7 +58,7 @@ Changelog
  * 0.1.3
 
    * ``all`` parameter expands to ``*``
-   * Added ``match_group`` parameter
+   * Added ``match_group`` config option
 
  * 0.1.2
 
