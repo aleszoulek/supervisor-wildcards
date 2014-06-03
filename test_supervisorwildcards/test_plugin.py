@@ -15,8 +15,9 @@ class TestPlugin(TestCase):
         self._supervisorctl('start all')
 
     def _supervisorctl(self, cmd, config_file=CONFIG_FILE):
-        out = Popen('supervisorctl --configuration="%s" %s' % (config_file, cmd), shell=True, stdout=PIPE).stdout.read()
-        print out
+        c = 'supervisorctl --configuration="%s" %s' % (config_file, cmd)
+        out = Popen(c, shell=True, stdout=PIPE).stdout.read().decode("utf-8")
+        print(out)
         return out
 
     def assert_status(self, expected):

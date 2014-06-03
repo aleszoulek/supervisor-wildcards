@@ -11,9 +11,9 @@ def main():
         while True:
             time.sleep(10)
     except KeyboardInterrupt:
-        print 'stoping..'
+        print('stopping..')
         test_dashvisor.tearDown()
-        print 'stoped'
+        print('stopped')
 
 
 if __name__ == '__main__':
