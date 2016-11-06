@@ -46,6 +46,8 @@ class WildCardsControllerPlugin(ControllerPluginBase):
         self._expand_wildcards(arg, command='start')
     def do_mrestart(self, arg):
         self._expand_wildcards(arg, command='restart')
+    def do_mstatus(self, arg):
+        self._expand_wildcards(arg, command='status')
 
     def help_mstop(self):
         return self._wrap_help('stop')
@@ -53,7 +55,8 @@ class WildCardsControllerPlugin(ControllerPluginBase):
         return self._wrap_help('start')
     def help_mrestart(self):
         return self._wrap_help('restart')
-
+    def help_mstatus(self):
+        return self._wrap_help('mstatus')
 
 
 
