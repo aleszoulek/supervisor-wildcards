@@ -5,10 +5,10 @@ Supervisor wildcards
 Description
 ===========
 
-Adds ``mstop``, ``mstart`` and ``mrestart`` commands to Supervisor_. Those commands works similar to ``stop``, ``start`` and ``restart`` respectively, but they:
+Adds ``mstop``, ``mstart``, ``mrestart`` and ``mstatus`` commands to Supervisor_. Those commands works similar to ``stop``, ``start``, ``restart`` and ``status`` respectively, but they:
 
 * add support for process name wildcarding,
-* sends the start/stop/restart signal in parallel (which makes the batch commands finish faster).
+* sends the start/stop/restart/status signal in parallel (which makes the batch commands finish faster).
 
 In some usecases you can use groups support in Supervisor_, but it doesn't allow you to have one process in multiple groups. That's when wildcarding can be really useful.
 
@@ -25,6 +25,9 @@ Example
   supervisor> mstop *-a
   celery-a: stopped
   gunicorn-a: stopped
+  supervisor> mstatus *-a
+  celery-a                                STOPPED    Nov 06 05:38 AM
+  gunicorn-a                              STOPPED    Nov 06 05:38 AM
   supervisor>
 
 Installation
