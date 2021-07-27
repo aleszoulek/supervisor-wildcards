@@ -16,8 +16,9 @@ class WildCardsControllerPlugin(ControllerPluginBase):
             name = "%s:%s" % (process['group'], process['name'])
         return fnmatch.fnmatch(name, pattern)
 
-    def _expand_wildcards(self, arg, command):
+    def _expand_wildcards(self, arg, command, offset=0):
         patterns = arg.split()
+        patterns = patterns[offset:]
         supervisor = self.ctl.get_supervisor()
         if 'all' in patterns:
             # match any process name
@@ -48,6 +49,11 @@ class WildCardsControllerPlugin(ControllerPluginBase):
         self._expand_wildcards(arg, command='restart')
     def do_mstatus(self, arg):
         self._expand_wildcards(arg, command='status')
+    def do_mpid(self, arg):
+        self._expand_wildcards(arg, command='pid')
+    def do_msignal(self, arg):
+        # signal <signal name> <patterns>
+        self._expand_wildcards(arg, command='signal', offset=1)
 
     def help_mstop(self):
         return self._wrap_help('stop')
@@ -57,6 +63,10 @@ class WildCardsControllerPlugin(ControllerPluginBase):
         return self._wrap_help('restart')
     def help_mstatus(self):
         return self._wrap_help('status')
+    def help_mpid(self):
+        return self._wrap_help('pid')
+    def help_msignal(self):
+        return self._wrap_help('signal')
 
 
 
