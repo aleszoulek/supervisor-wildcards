@@ -18,7 +18,9 @@ class WildCardsControllerPlugin(ControllerPluginBase):
 
     def _expand_wildcards(self, arg, command, offset=0):
         patterns = arg.split()
-        patterns = patterns[offset:]
+        if offset:
+            command = '%s %s' % (command, ' '.join(patterns[0:offset]))
+            patterns = patterns[offset:]
         supervisor = self.ctl.get_supervisor()
         if 'all' in patterns:
             # match any process name
