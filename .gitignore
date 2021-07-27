@@ -1,4 +1,5 @@
 /dist/
 /supervisord.log
 /supervisord.pid
-
+.coverage
+*.pyc
