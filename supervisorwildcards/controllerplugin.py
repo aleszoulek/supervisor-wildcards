@@ -56,7 +56,7 @@ class WildCardsControllerPlugin(ControllerPluginBase):
     def help_mrestart(self):
         return self._wrap_help('restart')
     def help_mstatus(self):
-        return self._wrap_help('mstatus')
+        return self._wrap_help('status')
 
 
 
